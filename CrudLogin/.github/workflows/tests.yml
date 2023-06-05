@@ -19,7 +19,11 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
+<<<<<<< HEAD
+        php: [8.1, 8.2]
+=======
         php: [8.2]
+>>>>>>> 1af48c7 (feat:implement tailwind-login-register)
 
     name: PHP ${{ matrix.php }}
 
