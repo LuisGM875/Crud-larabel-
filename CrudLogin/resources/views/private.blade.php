@@ -38,8 +38,8 @@
         @endif
     </div>
 
-<a href="{{route('registroProducto')}}">Generar producto</a>
-
+<a href="{{route('productos')}}">Generar producto</a>
+</div>
 </body>
 
 </html>

@@ -36,6 +36,13 @@ return [
             'throw' => false,
         ],
 
+        'imagenes' => [
+            'driver' => 'local',
+            'root' => storage_path('app/imagenes'),
+            'url' => env('APP_URL').'/storage/imagenes',
+            'visibility' => 'public',
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
