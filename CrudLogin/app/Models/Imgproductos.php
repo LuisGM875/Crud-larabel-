@@ -14,7 +14,7 @@ class Imgproductos extends Model
     protected $fillable = ['nombre', 'formato', 'productos_id'];
 
     // Relación Inversa
-    public function producto()
+    public function productos()
     {
         //belongs to que pertenece a
         return $this->belongsTo('App\Models\Productos');

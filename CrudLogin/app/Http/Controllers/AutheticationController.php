@@ -21,7 +21,7 @@ class AutheticationController extends Controller
         $user->save(); //guardar en la base de datos
         //Uso de clase Auth para acceder al usario cargado por su id
         Auth::login($user);
-        return redirect(route('privada'));
+        return redirect(route('categorias.index'));
     }
 
     public function login(Request $request){
@@ -36,7 +36,7 @@ class AutheticationController extends Controller
             //preparar sesion
             $request->session()->regenerate();
             //por si estas dentro del crud y entras a otro espacio privado
-            return redirect()->intended(route('privada'));
+            return redirect()->intended(route('categorias.index'));
         }else{
             return redirect('login');
         }

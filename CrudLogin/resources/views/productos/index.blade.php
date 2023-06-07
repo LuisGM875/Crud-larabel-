@@ -1,13 +1,14 @@
-<div class="panel-body">
+<div>
 
     @if(Session::has('message'))
-        <div class="alert alert-primary" role="alert">
+        <div role="alert">
             {{ Session::get('message') }}
         </div>
     @endif
 
-    <a href="{{ route('productos/crear') }}" class="btn btn-success mt-4 ml-3">  Agregar
+    <a href="{{ route('productos/crear', ['categorias_id'=>$categorias_id]) }}" class="btn btn-success mt-4 ml-3">  Agregar
     </a>
+        <a href="{{ route('categorias.index') }}" class="btn btn-primary">Volver a Categorías</a>
 
     <section class="example mt-4">
 
@@ -17,8 +18,10 @@
                 <thead>
                 <tr>
                     <th>Nombre</th>
+                    <th>Descripcion</th>
                     <th>Precio</th>
                     <th>Stock</th>
+                    <th>Numero de categoria</th>
                     <th>Imagen</th>
                     <th>Acciones</th>
                 </tr>
@@ -27,20 +30,27 @@
                 @foreach($productos as $produc)
                     <tr>
                         <td class="v-align-middle">{{$produc->nombre}}</td>
+                        <td class="">{{$produc->descripcion}}</td>
                         <td class="v-align-middle">{{$produc->precio}}</td>
                         <td class="v-align-middle">{{$produc->stock}}</td>
+                        <td>{{$produc->categoria_id}}</td>
                         <td class="v-align-middle">
-                            <img src="../uploads/{{$produc->imagenesbicicletas()->first()->nombre}}" width="30" class="img-responsive">
+                            <!-- Mostrar preview de la primera imagen si existe -->
+                            @if( optional($produc->imagenesproductos()->first())->nombre)
+                                <img src="{{ asset('storage/app/imagenes/imagenes/'.$produc->imagenesproductos()->first()->nombre) }}" width="30" class="img-responsive">
+                            @endif
                         </td>
                         <td class="v-align-middle">
-
-                            <form action="{{ route('$productos/eliminar',$produc->id) }}" method="POST" class="form-horizontal" role="form" onsubmit="return confirmarEliminar()">
+                            <form action="{{ route('productos/eliminar', ['categorias_id' => $categorias_id,'id' => $produc->id]) }}" method="POST" class="form-horizontal" role="form" onsubmit="return confirmarEliminar()">
+                                @method('PUT')
+                                @csrf
 
                                 <input type="hidden" name="_method" value="PUT">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <button onclick="location.href='{{ url('$productos/detalles', [$produc->id]) }}'" href="" type="button" class="btn btn-dark">Ver</button>
+                                <button onclick="location.href='{{ route('productos.detalles', ['categorias_id' => $categorias_id, 'id' => $produc->id]) }}'" href="" type="button" class="btn btn-dark">Ver</button>
 
-                                <a href="{{ route('$productos/actualizar',$produc->id) }}" class="btn btn-primary">Editar</a>
+                                <a href="{{ route('productos/actualizar',['categorias_id' => $categorias_id,'id' => $produc->id]) }}" class="btn btn-primary">Editar</a>
+
 
                                 <button type="submit" class="btn btn-danger">Eliminar</button>
 

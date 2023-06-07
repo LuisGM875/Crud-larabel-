@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AutheticationController;
+use App\Http\Controllers\ProductosController;
+use App\Http\Controllers\CategoriasController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,8 +20,7 @@ Route::view('/login',"login")->name('login');
 //ruta para ventana de registro
 Route::view('/registro',"register")->name('registro');
 //ruta para enviar a usuario a su sesion
-
-Route::view('/privada',"private")->middleware('auth')->name('privada');
+//Route::view('/privada',[CategoriasController::class,'index'])->middleware('auth')->name('privada');
 
 Route::view('/registroProducto',"create")->middleware('auth')->name('registroProducto');
 Route::view('/editarProducto',"edit")->middleware('auth')->name('editarProducto');
@@ -31,18 +32,32 @@ Route::post('/iniciaSesion',[AutheticationController::class,'login'])->name('ini
 Route::get('/logout',[AutheticationController::class,'logout'])->name('logout');
 
 
-Route::get('productos/crear', 'ProductosController@crear')->name('productos/crear');
-Route::put('productos/store', 'ProductosController@store')->name('productos/store');
+Route::get('/categorias/{categorias_id}/productos/crear', [ProductosController::class, 'create'])->middleware('auth')->name('productos/crear');
 
-Route::get('productos', 'ProductosController@index')->name('productos');
+Route::put('/categorias/{categorias_id}/productos/store', [ProductosController::class, 'store'])->middleware('auth')->name('productos/store');
 
-Route::get('productos/actualizar/{id}', 'ProductosController@actualizar')->name('productos/actualizar');
-Route::put('productos/update/{id}', 'ProductosController@update')->name('productos/update');
+Route::get('/categorias/{categorias_id}/productos', [ProductosController::class, 'index'])->middleware('auth')->name('productos');
 
-Route::put('productos/eliminar/{id}', 'ProductosController@eliminar')->name('productos/eliminar');
+Route::get('/categorias/{categorias_id}/productos', [ProductosController::class, 'index'])->middleware('auth')->name('productos/index');
 
-Route::get('productos/eliminarimagen/{id}{bid}', 'ProductosController@eliminarimagen')->name('productos/eliminarimagen');
+Route::get('/categorias/{categorias_id}/productos/actualizar/{id}', [ProductosController::class, 'actualizar'])->middleware('auth')->name('productos/actualizar');
 
-Route::get('productos/detalles/{id}', ['as' => 'productos/detalles', 'uses' => 'ProductosController@detallesproducto']);
+Route::put('/categorias/{categorias_id}/productos/update/{id}', [ProductosController::class, 'update'])->middleware('auth')->name('productos/update');
 
+Route::put('/categorias/{categorias_id}/productos/eliminar/{id}', [ProductosController::class, 'eliminar'])->middleware('auth')->name('productos/eliminar');
 
+Route::get('/categorias/{categorias_id}/productos/eliminarimagen/{id}{bid}', [ProductosController::class, 'eliminarimagen'])->middleware('auth')->name('productos/eliminarimagen');
+
+Route::get('/categorias/{categorias_id}/productos/detalles/{id}', [ProductosController::class, 'detallesproducto'])->middleware('auth')->name('productos.detalles');
+
+//Ruta de categorias
+Route::middleware(['auth'])->group(function () {
+    Route::delete('categorias/{id}', [CategoriasController::class, 'destroy'])->name('categorias.destroy');
+
+    // Resto de las rutas relacionadas a categorías
+    Route::get('/categorias', [CategoriasController::class, 'index'])->name('categorias.index');
+    Route::get('/categorias/create', [CategoriasController::class, 'create'])->name('categorias.create');
+    Route::post('/categorias', [CategoriasController::class, 'store'])->name('categorias.store');
+    Route::get('/categorias/{id}/edit', [CategoriasController::class, 'edit'])->name('categorias.edit');
+    Route::put('/categorias/{id}', [CategoriasController::class, 'update'])->name('categorias.update');
+});
