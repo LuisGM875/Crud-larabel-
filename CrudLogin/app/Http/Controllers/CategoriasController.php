@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Categoria;
+use App\Models\Categorias;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Productos;
@@ -17,7 +17,7 @@ class CategoriasController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::all();
+        $categorias = Categorias::all();
 
         return view('categorias.index', compact('categorias'));
     }
@@ -43,7 +43,7 @@ class CategoriasController extends Controller
         ]);
 
         // Crea una nueva categoría con los datos del formulario
-        Categoria::create([
+        Categorias::create([
             'nombre' => $request->nombre,
             'descripcion_corta' => $request->descripcion_corta,
             'descripcion_larga' => $request->descripcion_larga,
@@ -66,7 +66,7 @@ class CategoriasController extends Controller
      */
     public function edit($id)
     {
-        $categoria = Categoria::findOrFail($id);
+        $categoria = Categorias::findOrFail($id);
         return view('categorias.edit', compact('categoria'));
     }
 
@@ -83,7 +83,7 @@ class CategoriasController extends Controller
         ]);
 
         // Encuentra la categoría por su ID
-        $categoria = Categoria::findOrFail($id);
+        $categoria = Categorias::findOrFail($id);
 
         // Actualiza los datos de la categoría con los datos del formulario
         $categoria->update([
@@ -99,24 +99,22 @@ class CategoriasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($categorias_id)
+    public function destroy($id)
     {
-        $categorias_id = Categoria::with('productos.imagenesproductos')->findOrFail($categorias_id);
-        foreach ($categorias_id->productos as $productos) {
-            foreach ($productos->imagenesproductos as $imagen) {
+        $categoria = Categorias::with('productos.imagenesproductos')->findOrFail($id);
+        foreach ($categoria->productos as $producto) {
+            foreach ($producto->imagenesproductos as $imagen) {
                 $imagenPath = 'storage/app/imagenes/imagenes/' . $imagen->nombre;
                 if (Storage::disk('imagenes')->exists($imagenPath)) {
                     Storage::disk('imagenes')->delete($imagenPath);
                 }
-                // Delete the image records from the database
                 $imagen->delete();
             }
-            // Delete the product
-            $productos->delete();
+            $producto->delete();
         }
 
 
-        $categorias_id->delete();
+        $categoria->delete();
 
         return redirect()->route('categorias.index')->with('success', 'Categoría eliminada exitosamente');
     }

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', ['local','imagenes']),
 
     /*
     |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ return [
 
         'imagenes' => [
             'driver' => 'local',
-            'root' => storage_path('app/imagenes'),
+            'root' => storage_path('app/public/imagenes'),
             'url' => env('APP_URL').'/storage/imagenes',
             'visibility' => 'public',
         ],

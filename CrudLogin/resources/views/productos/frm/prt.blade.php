@@ -1,8 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0
+.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min
+.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/p
+opper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.
+min.js"></script>
+    <title>Producto</title>
+</head>
+<body class="bg-info">
+<div >
 @if ( !empty ( $productos->id) )
+    <br>
+    <div class="container card bg-light">
+        <h1 class="text-center">Editar</h1>
     <div class="form-group">
         <label for="nombre" class="negrita">Nombre:</label>
         <div>
-            <input class="form-control" placeholder="Nombre" required="required" name="nombre" type="text" id="nombre" value="{{ $productos->nombre }}">
+            <input class="form-control bg-body bg-gray-500" placeholder="Nombre" required="required" name="nombre" type="text" id="nombre" value="{{ $productos->nombre }}">
         </div>
     </div>
 
@@ -46,14 +72,14 @@
                 <span>Imagenes: </span>
                 <br>
 
-
                 @if(Session::has('message'))
                     <div role="alert">
                         {{ Session::get('message') }}
                     </div>
                 @endif
                 @foreach($imagenes as $imag)
-                    <img src="storage/app/imagenes/imagenes/{{$imag->nombre}}" width="200" alt="">
+                    <img src="file:///C:/xampp/htdocs/CrudLogin/storage/app/imagenes/imagenes/{{$imag->nombre}}" width="200" alt="">
+
                     <a href="{{ route('productos/eliminarimagen', ['id' => $imag->id, 'bid' => $productos->id,'categorias_id' => $categorias_id]) }}" onclick="return confirmarEliminar();">Eliminar</a>
                 @endforeach
             @else
@@ -63,9 +89,14 @@
         </div>
 
     </div>
-
+        <br>
+        <button type="submit" class="btn btn-info">Guardar</button>
+        <br>
+        <a href="{{ route('productos/index', ['categorias_id' => $categorias_id])}}" class="btn btn-warning">Cancelar</a>
+        <br>
+    </div>
 @else
-
+    <div class="">
     <div class="form-group">
         <label for="nombre" class="negrita">Nombre:</label>
         <div>
@@ -108,10 +139,16 @@
             <input name="img[]" type="file" id="img" multiple="multiple">
         </div>
     </div>
-
+        <br>
+        <button type="submit" class="btn btn-info">Guardar</button>
+    <br>
+        <a href="{{ route('productos/index', ['categorias_id' => $categorias_id])}}" class="btn btn-warning">Cancelar</a>
+        <br>
+    </div>
 @endif
-<br>
-<button type="submit" class="btn btn-info">Guardar</button>
+    </div>
+</body>
+</html>
 
-<a href="{{ route('productos/index', ['categorias_id' => $categorias_id])}}" class="btn btn-warning">Cancelar</a>
+
 

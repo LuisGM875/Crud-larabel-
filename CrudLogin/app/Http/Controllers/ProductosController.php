@@ -68,7 +68,7 @@ class ProductosController extends Controller
 
         }
 
-        return redirect()->route('productos.index', ['categorias_id' => $categorias_id])->with('success', 'Producto creado exitosamente');
+        return redirect()->route('productos/index', ['categorias_id' => $categorias_id])->with('message', 'Producto creado exitosamente');
     }
 
     public function show($id)
@@ -151,7 +151,7 @@ class ProductosController extends Controller
         $productos->delete();
         $productos->imagenesproductos()->delete();
 
-        return redirect()->route('productos.index', ['categorias_id' => $categorias_id])->with('message', 'Producto eliminado');
+        return redirect()->route('productos/index', ['categorias_id' => $productos->categorias_id])->with('message', 'Producto eliminado');
     }
 
     public function eliminarimagen($categorias_id, $id, $bid)
