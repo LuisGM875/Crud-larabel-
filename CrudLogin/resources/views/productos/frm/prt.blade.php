@@ -78,7 +78,7 @@ min.js"></script>
                     </div>
                 @endif
                 @foreach($imagenes as $imag)
-                    <img src="file:///C:/xampp/htdocs/CrudLogin/storage/app/imagenes/imagenes/{{$imag->nombre}}" width="200" alt="">
+                    <img src="{{ url('/storage/imagenes/imagenes/' . $imag->nombre) }}" width="200" alt="">
 
                     <a href="{{ route('productos/eliminarimagen', ['id' => $imag->id, 'bid' => $productos->id,'categorias_id' => $categorias_id]) }}" onclick="return confirmarEliminar();">Eliminar</a>
                 @endforeach

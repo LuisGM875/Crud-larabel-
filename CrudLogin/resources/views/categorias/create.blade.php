@@ -17,11 +17,14 @@ opper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.
 min.js"></script>
-    <title>Document</title>
-</head>
-<body>
-<h1>Agregar Categoría</h1>
 
+    <title>Agregar categoria</title>
+</head>
+<body class="bg-info">
+
+<br>
+<div class="container card bg-light">
+    <h1 class="text-center">Agregar Categoría</h1>
 <form method="POST" action="{{ route('categorias.store') }}">
     @csrf
 
@@ -41,7 +44,9 @@ min.js"></script>
     </div>
 
     <button type="submit" class="btn btn-primary">Guardar</button>
+    <br>
 </form>
+</div>
 </body>
 </html>
 

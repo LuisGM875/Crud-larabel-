@@ -44,9 +44,9 @@ Route::get('/categorias/{categorias_id}/productos/actualizar/{id}', [ProductosCo
 
 Route::put('/categorias/{categorias_id}/productos/update/{id}', [ProductosController::class, 'update'])->middleware('auth')->name('productos/update');
 
-Route::put('/categorias/{categorias_id}/productos/eliminar/{id}', [ProductosController::class, 'eliminar'])->middleware('auth')->name('productos/eliminar');
+Route::delete('/categorias/{categorias_id}/productos/eliminar/{id}', [ProductosController::class, 'eliminar'])->middleware('auth')->name('productos/eliminar');
 
-Route::get('/categorias/{categorias_id}/productos/eliminarimagen/{id}{bid}', [ProductosController::class, 'eliminarimagen'])->middleware('auth')->name('productos/eliminarimagen');
+Route::get('/categorias/{categorias_id}/productos/eliminarimagen/{id}/{bid}', [ProductosController::class, 'eliminarimagen'])->middleware('auth')->name('productos/eliminarimagen');
 
 Route::get('/categorias/{categorias_id}/productos/detalles/{id}', [ProductosController::class, 'detallesproducto'])->middleware('auth')->name('productos.detalles');
 

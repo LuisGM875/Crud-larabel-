@@ -24,7 +24,7 @@ class ProductosController extends Controller
             ->where('categorias_id', $categorias_id)
             ->with('imagenesproductos:nombre')
             ->get();
-        return view('productos.index', compact('productos', 'categorias_id'));
+        return view('productos/index', compact('productos', 'categorias_id'));
     }
 
     public function create($categorias_id)
@@ -82,9 +82,9 @@ class ProductosController extends Controller
 
         if ($productos) {
             $imagenes = $productos->imagenesproductos;
-            return view('productos.actualizar', compact('imagenes', 'productos', 'categorias_id'));
+            return view('productos/actualizar', compact('imagenes', 'productos', 'categorias_id'));
         } else {
-            return redirect()->route('productos.actualizar', ['categorias_id' => $categorias_id])->with('error', 'Producto no encontrado.');
+            return redirect()->route('productos/actualizar', ['categorias_id' => $categorias_id])->with('error', 'Producto no encontrado.');
         }
     }
 
@@ -156,14 +156,21 @@ class ProductosController extends Controller
 
     public function eliminarimagen($categorias_id, $id, $bid)
     {
-        $productos = Imgproductos::find($id);
-        $bi = $bid;
-        $imagen = Imgproductos::select('nombre')->where('id', '=', $id)->get();
-        $imgfrm = $imagen->implode('nombre', ', ');
-        Storage::delete($imgfrm);
-        Imgproductos::destroy($id);
+        $imagen = Imgproductos::find($id);
 
-        return redirect()->route('productos/actualizar', ['categorias_id' => $categorias_id, 'id' => $bi])->with('message', 'Imagen eliminada satisfactoriamente');
+        if (!$imagen) {
+            return redirect()->back()->with('error', 'Imagen no encontrada.');
+        }
+
+        $imagenPath = 'imagenes/imagenes/' . $imagen->nombre;
+
+        if (file_exists($imagenPath)) {
+            unlink($imagenPath);
+        }
+
+        $imagen->delete();
+
+        return redirect()->route('productos/actualizar', ['categorias_id' => $categorias_id, 'id' => $bid])->with('message', 'Imagen eliminada satisfactoriamente');
     }
 
     public function detallesproducto($id)

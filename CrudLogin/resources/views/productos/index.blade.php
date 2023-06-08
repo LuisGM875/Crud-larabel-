@@ -59,7 +59,7 @@ min.js"></script>
                         <td class="v-align-middle">
                             <!-- Mostrar preview de la primera imagen si existe -->
                             @if( optional($produc->imagenesproductos()->first())->nombre)
-                                <img src="{{ asset('/app/public/imagenes/imagenes/'.$produc->imagenesproductos()->first()->nombre) }}" width="30" class="img-responsive">
+                                <img src="{{ url('/storage/imagenes/imagenes/'.$produc->imagenesproductos()->first()->nombre) }}" width="30" class="img-responsive" alt="Imagen">
                             @endif
                         </td>
                         <td class="v-align-middle">

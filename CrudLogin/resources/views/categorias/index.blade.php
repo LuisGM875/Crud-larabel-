@@ -25,14 +25,15 @@ min.js"></script>
 </head>
 
 <body class="bg-info">
-<div class="bg-light border border-black">
-    <a class="">Crud productos Usuario @auth
-            {{Auth::user()->name}}
-        @endauth</a>
-    <a href="{{ route('logout') }}">
-        <button type="button" class="btn btn-danger ">Salir</button>
+<div>
+    <a class="text-center"><h3 class="text-left">Crud productos Usuario @auth
+                {{Auth::user()->name}}
+            @endauth</h3></a>
+    <a href="{{ route('logout') }}" class="float-end">
+        <button type="button" class="btn btn-danger">Salir</button>
     </a>
 </div>
+
 <div class="container">
     @if(Session::has('mensaje'))
         <div class="alert alert-success alert-dismissible" role="alert">Mensajes:
